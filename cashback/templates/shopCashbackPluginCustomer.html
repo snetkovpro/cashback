@@ -1,0 +1,121 @@
+{strip}
+
+{$_background_color = "#eeeeee"}
+{$_products_bg = "#ffffff"}
+{$_bonus_background = "#ffffcc"}
+{$_button_background = "#fcd630"}
+{$_main_border_color = "#cccccc"}
+{$_border_color = "#dddddd"}
+
+<table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="{$_background_color}" style="
+        font-family:Helvetica,Arial,sans-serif;
+        letter-spacing:normal;
+        text-indent:0;
+        text-transform:none;
+        word-spacing:0;
+        background-color:rgb(232,232,232);
+        border-collapse:collapse
+    ">
+    <tr>
+        <td style="padding: 20px;">
+            <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="
+                width: 600px !important;
+                background-color:#fff;
+                border:1px solid {$_main_border_color};
+                border-radius: 4px;
+                margin:auto;
+                overflow: hidden;
+                padding: 2em;
+                ">
+
+                <!-- HEADER -->
+                <tr>
+                    <td width="50" style="width:50px !important; border: solid {$_border_color}; border-width: 0 0 1px 0;"></td>
+                    <td height="70" align="center" valign="middle">
+                        <table width="500" border="0" align="center" cellpadding="0" cellspacing="0" style="width: 100% !important;">
+                            <tr>
+                                <td>
+                                    <a href="{$cashback_url}">
+                                        <img src="{$mail_banner}">
+                                    </a>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                    </td>
+                    
+                </tr>
+
+                <!-- STATUS -->
+                <tr>
+                    <td></td>
+                    <td>
+                        <table cellspacing="0" border="0" cellpadding="0" width="100%" style="border-collapse:collapse">
+                            <tr>
+                                <td>
+                                    <p style="
+                                        text-align:center;
+                                        font-size: large;
+                                        ">Уважаемый {$name}, ваш заказ участвует в акции Cashback.</p>
+                                        <p style="
+                                        text-align:center;
+                                        font-size: x-large;
+                                        ">Сумма кэшбэка = {$cashback}р.</p>
+                                        <p style="
+                                        font-style: italic;
+                                        font-size: large;
+                                        ">После получения товара с вами свяжется наш сотрудник для подтверждения контактных данных.</p>
+                                        <a href="{$cashback_url}">Подробнее об акции</a>
+                                        <p>Телефон: 8 (812) 601-05-50</p>      
+                                        <p>Почта: store@smazka.ru</p>
+                                    
+                                   
+                                </td>
+                            </tr>
+                            <tr>
+                                
+                            </tr>
+                        </table>
+                    </td>
+                    <td></td>
+                </tr>
+
+               
+
+            
+                
+               
+                
+                
+               
+
+                <!-- BONUS POINTS -->
+               
+            </table>
+
+            <!-- BOTTOM SITE INFORMATION -->
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+                <tr>
+                    <td valign="middle" align="center" height="45">
+                        <p style="
+                            font-style:normal;
+                            font-variant:normal;
+                            font-weight:normal;
+                            font-size:13px;
+                            line-height:16px;
+                            font-family:Arial,sans-serif,Helvetica;
+                            color:rgb(147,154,164);
+                            margin: 20px 0 0;
+                            ">
+                            © {date("Y")} {$wa->shop->settings("name")}<br>
+                            <a href="http://{$order.params.storefront}" target="_blank">{$order.params.storefront}</a>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+{/strip}
