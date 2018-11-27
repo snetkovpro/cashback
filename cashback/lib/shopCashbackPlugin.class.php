@@ -5,10 +5,14 @@ class shopCashbackPlugin extends shopPlugin
 
 	public $order;
 	private $witems = array('4302', '4401', '4501', '2101', '2102', '9302', '9301', '9303', '9201', '5201', '8302', '1211', '1201', '2705', '2706', '2707', '2708', '2401', '2301', '2303', '2204', '2102', '2201');
+	private $storefronts = array('kz.smazka.ru', 'by.smazka.ru');
+
 
 	public function execute ($params) {
 
-		 if (!$this->getSettings('enabled')) {
+		$base = wa()->getRouting()->getDomain();
+
+		 if (!$this->getSettings('enabled') || in_array($base, $this->storefronts)) {
            		 return false;
        		 }
 		
@@ -16,7 +20,7 @@ class shopCashbackPlugin extends shopPlugin
 			// Получение данных о заказе
 			$model = new shopOrderModel();
 			$this->order = $model->getOrder($params['order_id']);
-			$cashback_url = $this->order['params']['storefront'] . '/cashback/';
+			$cashback_url = $this->order['params']['storefront'] . '/aktsiya-cashback/';
 			$mail_banner = $this->order['params']['storefront'] . '/cashback/img/mail_banner.jpg';
 
 			// Получение данных о товарах в заказе
@@ -35,6 +39,8 @@ class shopCashbackPlugin extends shopPlugin
 				$admin_view->assign('name', $data['name']);
 				$admin_view->assign('phone', $data['phone']);
 				$admin_view->assign('email', $data['email']);
+				$admin_view->assign('city', $data['city']);
+				$admin_view->assign('address', $data['address']);
 				$admin_view->assign('cashback', $cashback);
 
 		        $admin_content = $admin_view->fetch($this->path.'/templates/shopCashbackPluginAdmin.html');
@@ -43,8 +49,8 @@ class shopCashbackPlugin extends shopPlugin
 
 		        $admin_data['subject'] = $subject;
 		        $admin_data['body'] = $admin_content;
-		        $admin_data['email'] = 'snetkovpro@gmail.com';
-		        $admin_data['name'] = 'Roman';
+		        $admin_data['email'] = 'store@smazka.ru';
+		        $admin_data['name'] = 'Vasiliy';
 		        $this->mail($admin_data);
 
 		        // Формирование письма клиенту
@@ -75,14 +81,17 @@ class shopCashbackPlugin extends shopPlugin
 		
 
 
-        // waLog::dump($this->order, 'shop/cashback/order-actions/create.log');
+      //  waLog::dump($this->order, 'shop/cashback/order-actions/create.log');
       
 
 	}
 
 	public function cashbackCart () {
 
-		if (!$this->getSettings('enabled')) {
+		$base = wa()->getRouting()->getDomain();
+
+
+		if (!$this->getSettings('enabled') || in_array($base, $this->storefronts)) {
            		 return false;
        		 }
 
@@ -91,7 +100,10 @@ class shopCashbackPlugin extends shopPlugin
 		$cart = new shopCart();
 		$items = $cart->items();
 		$action = 'ready';
-		$base = wa()->getRouting()->getDomain();
+		
+		
+
+		// waLog::dump($s, 'shop/cashback/order-actions/create.log');
 
 		foreach ($items as $item) {
 
@@ -106,7 +118,7 @@ class shopCashbackPlugin extends shopPlugin
 						$name = $item['product']['name'];
 						$url = $base . "/" . $item['product']['url'];
 						$product_link = "<a href='http://" . $url . "' >" . $name . "</a>";
-						$cashback_link = "<a href='http://" . $base . "/cashback/' >Cashback</a>"; 
+						$cashback_link = "<a href='http://" . $base . "/aktsiya-cashback/' >Cashback</a>"; 
 					}
 					break;
 				
@@ -225,7 +237,8 @@ class shopCashbackPlugin extends shopPlugin
 			$data['name'] = $this->order['contact']['name'];
 			$data['phone'] = $this->order['contact']['phone'];
 			$data['email'] = isset($this->order['contact']['email']) ? $this->order['contact']['email'] : ' ';
-
+			$data['city'] = $this->order['params']['shipping_address.city'];
+			$data['address'] = $this->order['params']['shipping_address.street'];
 		}
 
 		if ($purpose == 'customer') {
